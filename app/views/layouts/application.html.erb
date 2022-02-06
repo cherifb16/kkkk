@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>FriendApp</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <meta name="viewport" content = "width=device-width">
+     <%= favicon_link_tag 'user-logo.png' %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+  
+  <header class='header-menu'>
+  
+  
+         <div class="row">
+          
+           <% if logged_in? %>
+              <ul class='navbar' >
+              <li class="col-sm-5"> <input type="search" id="site-search" name="q"
+       placeholder='search'></li>
+              <li class="col-sm-3">
+              <%= button_to pictures_path, method: :get, class: "fa fa-home" do %>
+              <%= fa_icon('home', type: :regular, text: "HOME") %>
+              <% end %></li>
+             <li class="col-sm-2">
+              <%= button_to user_path(current_user.id), method: :get, class: "fa fa-user" do %>
+              <%= fa_icon('user', type: :regular,text: "profile") %>
+              <% end %></li>
+            <li class="col-sm-1"> 
+              <%= button_to session_path(current_user.id), method: :delete, class: "fa fa-sign-out" do %>
+              <%= fa_icon('sign-out', type: :regular,text:'logout') %>
+              <% end %>
+              </li>
+               <% else %>
+             <li class="col-sm-2">
+              <%= button_to new_user_path, method: :post, class: "fa fa-user-plus" do %>
+              <%= fa_icon('sign up', type: :regular,text: "Sign up") %>
+              <% end %>
+             </li>
+             <li class="col-sm-3"> 
+               <%= button_to new_session_path, method: :post, class: "fa fa-sign-in" do %>
+              <%= fa_icon('sign in', type: :regular,text:'login') %>
+              <% end %>
+              </li>
+             </ul>
+          <% end %>
+        </div>
+  </div>
+   </header>
+    <% flash.each do |key, value| %>
+      <%= content_tag(:div, value, class: "#{key}") %>
+      <% end %> 
+
+  <%= yield %>
+  </body>
+ 
+</html>

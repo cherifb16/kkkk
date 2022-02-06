@@ -1,0 +1,62 @@
+<div class='container'>
+   <ul class="row">
+     <li class=' col-md-4'>
+        <div class= 'left-side-bar'>
+         <div  class="side_menu-item">Profile</div>
+        <div  class="side_menu-item">友達を検索</div>
+        <div  class="side_menu-item">ようこそ</div>
+        <div  class="side_menu-item">グループ</div>
+        <div  class="side_menu-item">Watch</div>
+        <div  class="side_menu-item">思い出</div>
+        <div  class="side_menu-item">保存すみ</div>
+        <div  class="side_menu-item">ページ</div>
+        <div class="side_menu-item">イベント</div>
+        <div class="side_menu-item">お気に入り</div>
+       <div  class="side_menu-item">もっと見る</div>
+       <div  class="side_menu-item">Facebook Pay</div>
+       <div  class="side_menu-item">Messenger</div>
+       <div  class="side_menu-item">Quest</div>
+       </div>
+     </li>
+    <li class='col-md-4'>  
+     <div> 
+      <h2>ブログ一覧</h2>
+      <%= link_to '新規投稿', new_picture_path ,class:"picture-button" %></li>
+      
+      <li class='picture col-md-4'>
+       <% @pictures.each do |picture| %>
+       <div class='picture'>
+        <p>
+       <%= link_to distance_of_time_in_words(Time.now, picture.created_at)+ ' ago', picture, class: 'timestamp' %>
+          <% if current_user.id == picture.user_id %>
+           <span class="edit-delete-picture">
+            <%= link_to '写真を編集', edit_picture_path(picture) %>
+            <%= link_to '削除', picture, method: :delete, data: {confirm: "本当に削除してよろしいでしょうか?"} %>
+            </span>
+         <% end %>
+       </p>
+       <p class='picture-content'>
+       <%= picture.content %><br/>
+       <%= image_tag picture.image.url %><br/>
+       </p>
+     <div class="favorite-comment-buttons">
+       <% favorite = picture.favorites.where("user_id = ?", current_user.id) %>
+       <% if favorite.empty? %>
+        <%= button_to favorites_path(favorite: {picture_id: picture.id} ), method: :post, class: "favorite-button" do %>
+        <%= fa_icon('thumbs-up', type: :regular, text: "favorite") %>
+      <% end %>
+      <% else %>
+        <%= button_to favorite_path(favorite.ids), method: :delete, class: "favorite-button unfavorite" do %>
+        <%= fa_icon('thumbs-up', type: :solid, text: "favorite") %>
+        <% end %>
+      <% end %>
+      <button class="comment-button"><i class="far fa-comment-alt"></i> Comment</button>
+      </div>
+  <%= link_to '確認', picture_path(picture.id),class:"btn-default" %>
+      </div>
+     </div>
+     <% end %>
+    </div>
+   </li>
+  </ul>
+</div>
